@@ -82,7 +82,7 @@ function getInfoFromOup() {
     }
     // Authors
     let authors = [];
-    for (let auth of document.getElementsByClassName("al-authors-list")[0].children) {
+    for (let auth of document.getElementsByClassName("al-authors-list")[0].getElementsByClassName("al-author-name-more")) {
         let fullName = decodeURI(auth.getElementsByClassName("linked-name")[0].textContent);
         let surnameFirst = decodeURI(auth.getElementsByClassName("info-card-search-google")[0].children[0].href.match(/\%22(.*?)\%2/)[1])
         authors.push(cleanLetters(fullName.slice(fullName.lastIndexOf(surnameFirst))))
