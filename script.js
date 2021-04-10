@@ -64,7 +64,7 @@ function getInfoFromWiley() {
     for (let auth of document.getElementById("sb-1").getElementsByClassName("author-name")) {
         let authSurnames = auth.href.match(/ContribAuthorStored=(.*)%2C/)[1].split("+");
         for (let i = 0; i < authSurnames.length; ++i) {
-            authSurnames[i]= upcaseFirstLetter(authSurnames[i]);
+            authSurnames[i] = upcaseFirstLetter(decodeURI(authSurnames[i]));
         }
         authors.push(cleanLetters(authSurnames.join(" ")));
     }
@@ -143,7 +143,7 @@ function getInfoFromInforms() {
     // Authors
     let authors = [];
     for (let auth of document.getElementById("sb-1").getElementsByClassName("entryAuthor")) {
-        authors.push(cleanLetters(auth.href.match(/text1=(.*?)\%2C/)[1]));
+        authors.push(cleanLetters(decodeURI(auth.href.match(/text1=(.*?)\%2C/)[1])));
     }
     return fcText + articleYear + " " + addAnd(authors).join(" ") + " " + articleTitle;
 }
@@ -167,7 +167,7 @@ function getInfoFromChicago() {
     for (let auth of document.getElementById("sb-1").getElementsByClassName("bottom-info")) {
         let authSurnames = auth.getElementsByTagName("a")[0].href.match(/ContribAuthorRaw=(.*)%2C/)[1].split("+");
         for (let i = 0; i < authSurnames.length; ++i) {
-            authSurnames[i]= upcaseFirstLetter(authSurnames[i]);
+            authSurnames[i]= upcaseFirstLetter(decodeURI(authSurnames[i]));
         }
         authors.push(cleanLetters(authSurnames.join(" ")));
     }
