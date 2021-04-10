@@ -47,8 +47,16 @@ function getInfoFromScienceDirect() {
 function getInfoFromWiley() {
     // Title
     let articleTitle = document.getElementsByClassName("citation__title")[0].textContent;
-    // Year
-    let articleYear = matchYear(document.getElementsByClassName("epub-date")[0].textContent);
+    // Year and Forthcoming or not
+    let fcText = "";
+    let articleYear = "";
+    let matched = matchMonthYear(document.getElementsByClassName("extra-info-wrapper")[0].textContent);
+    if (matched == null) {
+        fcText = "FC ";
+        articleYear = matchYear(document.getElementsByClassName("epub-date")[0].textContent);
+    } else {
+        articleYear = matched[2];
+    }
     // Authors
     let authors = [];
     for (let auth of document.getElementById("sb-1").getElementsByClassName("author-name")) {
@@ -57,11 +65,6 @@ function getInfoFromWiley() {
             authSurnames[i]= upcaseFirstLetter(authSurnames[i]);
         }
         authors.push(cleanLetters(authSurnames.join(" ")));
-    }
-    // Forthcoming or not
-    let fcText = "";
-    if (document.getElementsByClassName("volume-issue")[0].textContent.match(/\d/) == null) {
-        fcText = "FC ";
     }
     return fcText + articleYear + " " + addAnd(authors).join(" ") + " " + articleTitle;
 }
@@ -99,7 +102,7 @@ function getInfoFromCambridge() {
     // Year and Forthcoming or not
     let fcText = "";
     let articleYear = "";
-    let matched = citationText.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s([0129]{2}\d{2})/)
+    let matched = matchMonthYear(citationText);
     if (matched == null) {
         fcText = "FC ";
         articleYear = matchYear(headInfo.getElementsByClassName("published-date")[0].textContent);
@@ -164,6 +167,11 @@ function addAnd(strarr) {
 // Function to match a year between 1900 and 2100 in a string
 function matchYear(string) {
     return string.match(/[0129]{2}\d{2}/)[0];
+}
+
+// Function to match a Month and Year
+function matchMonthYear(string) {
+    return string.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s([0129]{2}\d{2})/);
 }
 
 // Function to clean letters
