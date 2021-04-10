@@ -14,6 +14,8 @@ function getArticleInfo() {
         fileName = getInfoFromCambridge();
     } else if (hostname.indexOf(".informs.") >= 0) {
         fileName = getInfoFromInforms();
+    } else if (hostname.indexOf(".uchicago.") >= 0) {
+        fileName = getInfoFromChicago();
     } else {
         fileName = "Invalid";
     }
@@ -43,7 +45,7 @@ function getInfoFromScienceDirect() {
     return fcText + articleYear + " " + addAnd(authors).join(" ") + " " + articleTitle;
 }
 
-// onlinelibrary.wiley.com.com
+// onlinelibrary.wiley.com
 function getInfoFromWiley() {
     // Title
     let articleTitle = document.getElementsByClassName("citation__title")[0].textContent;
@@ -142,6 +144,32 @@ function getInfoFromInforms() {
     let authors = [];
     for (let auth of document.getElementById("sb-1").getElementsByClassName("entryAuthor")) {
         authors.push(cleanLetters(auth.href.match(/text1=(.*?)\%2C/)[1]));
+    }
+    return fcText + articleYear + " " + addAnd(authors).join(" ") + " " + articleTitle;
+}
+
+// journals.uchicago.edu
+function getInfoFromChicago() {
+    // Title
+    let articleTitle = document.getElementsByClassName("citation__title")[0].textContent;
+    // Year and Forthcoming or not
+    let fcText = "";
+    let articleYear = "";
+    let volumeDate = document.getElementsByClassName("current-issue__date");
+    if (volumeDate.length > 0) {
+        articleYear = matchYear(volumeDate[0].textContent);
+    } else {
+        fcText = "FC ";
+        articleYear = matchYear(document.getElementsByClassName("article-chapter-history-list")[0].textContent);
+    }
+    // Authors
+    let authors = [];
+    for (let auth of document.getElementById("sb-1").getElementsByClassName("bottom-info")) {
+        let authSurnames = auth.getElementsByTagName("a")[0].href.match(/ContribAuthorRaw=(.*)%2C/)[1].split("+");
+        for (let i = 0; i < authSurnames.length; ++i) {
+            authSurnames[i]= upcaseFirstLetter(authSurnames[i]);
+        }
+        authors.push(cleanLetters(authSurnames.join(" ")));
     }
     return fcText + articleYear + " " + addAnd(authors).join(" ") + " " + articleTitle;
 }

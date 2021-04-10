@@ -7,3 +7,4 @@
 * Oxford: RFS, etc.
 * Cambridge: JFQA, etc.
 * INFORMS: MS, etc.
+* UChicago: JPE, etc.
