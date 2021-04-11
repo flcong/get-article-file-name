@@ -176,7 +176,7 @@ function getInfoFromChicago() {
 
 // Function to remove symbols that cannot be in file name
 function cleanFileName(string) {
-    return string.replace(/[:,\?\/]/g, "");
+    return string.trim().replace(/[:,\?\/]/g, "").replace(/\s+/g, " ");
 }
 
 // Function to keep the first letter upcase and other lower case
