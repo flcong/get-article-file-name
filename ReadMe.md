@@ -18,7 +18,7 @@ Note that the extension `".pdf"` is not automatically added to the generated fil
 
 Go to the website of an article and simply click on the extension icon. A prompt will show up with the generated article file name that is already in selection (see the following screenshot). Then, you can simply use `Ctrl+C` to copy the name and rename the pdf-file of the article downloaded.
 
-<img src="get-article-file-name-screenshot.jpg" style="zoom:50%;" />
+<img src="get-article-file-name-screenshot.jpg"  />
 
 Access to the content of the article is not required since only free citation info is parsed.
 
