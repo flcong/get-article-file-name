@@ -4,22 +4,29 @@ getArticleInfo();
 function getArticleInfo() {
     let hostname = window.location.host;
     let fileName = "";
-    if (hostname.indexOf(".sciencedirect.") >= 0) {
-        fileName = getInfoFromScienceDirect();
-    } else if (hostname.indexOf(".wiley.") >= 0) {
-        fileName = getInfoFromWiley();
-    } else if (hostname.indexOf(".oup.") >= 0) {
-        fileName = getInfoFromOup();
-    } else if (hostname.indexOf(".cambridge.") >= 0) {
-        fileName = getInfoFromCambridge();
-    } else if (hostname.indexOf(".informs.") >= 0) {
-        fileName = getInfoFromInforms();
-    } else if (hostname.indexOf(".uchicago.") >= 0) {
-        fileName = getInfoFromChicago();
-    } else {
-        fileName = "Invalid";
+    try {
+        if (hostname.indexOf(".sciencedirect.") >= 0) {
+            fileName = getInfoFromScienceDirect();
+        } else if (hostname.indexOf(".wiley.") >= 0) {
+            fileName = getInfoFromWiley();
+        } else if (hostname.indexOf(".oup.") >= 0) {
+            fileName = getInfoFromOup();
+        } else if (hostname.indexOf(".cambridge.") >= 0) {
+            fileName = getInfoFromCambridge();
+        } else if (hostname.indexOf(".informs.") >= 0) {
+            fileName = getInfoFromInforms();
+        } else if (hostname.indexOf(".uchicago.") >= 0) {
+            fileName = getInfoFromChicago();
+        } else {
+            alert("Unsupported website!");
+            return;
+        }
+        window.prompt("FileName", cleanFileName(fileName));
     }
-    window.prompt("FileName", cleanFileName(fileName));
+    catch(err) {
+        alert("Cannot find article information!");
+    }
+
 }
 
 // www.sciencedirect.com
