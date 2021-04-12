@@ -19,7 +19,7 @@ function getArticleInfo() {
     } else {
         fileName = "Invalid";
     }
-    window.prompt("FileName", cleanFileName(fileName) + ".pdf");
+    window.prompt("FileName", cleanFileName(fileName));
 }
 
 // www.sciencedirect.com
