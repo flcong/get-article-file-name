@@ -59,12 +59,12 @@ function getInfoFromWiley() {
     // Year and Forthcoming or not
     let fcText = "";
     let articleYear = "";
-    let matched = matchMonthYear(document.getElementsByClassName("extra-info-wrapper")[0].textContent);
+    let matched = matchYear(document.getElementsByClassName("extra-info-wrapper")[0].textContent);
     if (matched == null) {
         fcText = "FC ";
         articleYear = matchYear(document.getElementsByClassName("epub-date")[0].textContent);
     } else {
-        articleYear = matched[2];
+        articleYear = matched;
     }
     // Authors
     let authors = [];
@@ -201,7 +201,12 @@ function addAnd(strarr) {
 
 // Function to match a year between 1900 and 2100 in a string
 function matchYear(string) {
-    return string.match(/[0129]{2}\d{2}/)[0];
+    matched = string.match(/[0129]{2}\d{2}/);
+    if (matched == null) {
+        return null;
+    } else {
+        return matched[0];
+    }
 }
 
 // Function to match a Month and Year
