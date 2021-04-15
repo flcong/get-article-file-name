@@ -14,6 +14,16 @@ This extension parse the article website to get information about the article an
 
 Note that the extension `".pdf"` is not automatically added to the generated file name.
 
+## Installation
+
+This extension should be available in the Chrome Web Store soon, but before it is approved, users can install the extension as follows:
+
+* Download the repository and unzip all files into a folder (e.g. `get-article-file-name`).
+* Open Chrome, click on the three vertical dots on the top right and then choose "More Tools" and then "Extensions".
+* In the opened tab, toggle on "Developer mode" on the top right of the page and a new toolbar will appear at the top.
+* Click on "Load unpacked" and choose the folder where you unzip all files (e.g. `get-article-file-name`) and click on "Select Folder". Then, the extension will appear on the page.
+* If the icon of this extension is not shown on the right hand side of the URL address bar, click on the Extensions icon (the second icon on the left of the three vertical dots). Then on the popup panel, you can choose to pin extensions that you want to display on the left of the extension icon.
+
 ## Usage
 
 Go to the website of an article and simply click on the extension icon. A prompt will show up with the generated article file name that is already in selection (see the following screenshot). Then, you can simply use `Ctrl+C` to copy the name and rename the pdf-file of the article downloaded.
