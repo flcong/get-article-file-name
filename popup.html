@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=80px, initial-scale=1.0"> -->
+    <link rel="stylesheet" href="popup.css">
+    <title>Options</title>
+</head>
+<body>
+    <button id="exec-main" class="alt-button">Click to get article file name</button>
+    <div style="height:10px"></div>
+    <div class="title-text label-text">Customize file name format</div>
+    <form>
+    <table>
+        <tr>
+            <td>
+                <span class="label-text">File name format:</span>
+            </td>
+            <td>
+                <input type="text" id="fileNameFormat" class="text-box">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label-text">Forthcoming text:</span>
+            </td>
+            <td>
+                <input type="text" id="FCtext" class="text-box">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label-text">Working-paper text:</span>
+            </td>
+            <td>
+                <input type="text" id="WPtext" class="text-box">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label-text">Display the floating button?</span>
+            </td>
+            <td>
+                <input type="checkbox" id="displayButton" class=check-box>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label-text">Latin alphabets only?</span>            
+            </td>
+            <td>
+                <input type="checkbox" id="latinOnly" class="check-box">
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+            <td>    
+                <button type=submit id="confirm" class="button">Confirm</button>
+                <div class="help"><a id="help" href="https://github.com/flcong/get-article-file-name"><img src="images/help.png" style="vertical-align: middle; height: 18px; width: 18px">Help</a></div>
+            </td>
+        </tr>
+    </table>
+</form>
+    <script src="popup.js"></script>
+</body>
+</html>
