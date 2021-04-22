@@ -1,4 +1,4 @@
-# Generate Article File Name ![](images/gafn32.png)
+# Get Article File Name ![](images/gafn32.png)
 Current Version: 2.0
 
 ## Motivation
