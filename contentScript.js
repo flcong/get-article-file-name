@@ -399,7 +399,7 @@ function getJournalVar(obj) {
             ["journal of public economics", "JPub"],
             ["american economic journal macroeconomics", "AEJMa"],
             ["american economic journal microeconomics", "AEJMi"],
-            ["SSRN", "SSRN"]
+            ["ssrn", "SSRN"]
         ]
     )
     let tmpAbbrev = overwriteMap.get(fulljournal.toLowerCase());
