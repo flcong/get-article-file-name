@@ -13,7 +13,7 @@ The current version allows the user to customize the format of the generated fil
 
 ## Installation
 
-This extension is available in the Chrome Web Store ([link](https://chrome.google.com/webstore/detail/generate-article-file-nam/hfndhbkbonjliafbkonmbeegbmopmchg)).
+This extension is available in the Chrome Web Store ([link](https://chrome.google.com/webstore/detail/get-article-file-name/aopacmmlepabhmbdamhgdgocjgpgfnph)).
 
 Users can also install the extension using the current repository (updated faster since it takes time for Chrome to approve):
 
