@@ -480,8 +480,9 @@ function getInfoFromScienceDirect() {
 
 // onlinelibrary.wiley.com
 function getInfoFromWiley() {
-    // Get all data in JSON form (saved in digitalData)
-    eval(document.getElementById("analyticDigitalData").textContent);
+    // Get all data in JSON form
+    jsonstr = document.getElementById("analyticDigitalData").textContent;
+    digitalData = JSON.parse(jsonstr.slice(jsonstr.match(/{/).index))
     let articleInfo = digitalData;
     // Title
     let fullTitle = articleInfo.publication.item.title
