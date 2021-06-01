@@ -405,8 +405,8 @@ function getJournalVar(obj) {
     let tmpAbbrev = overwriteMap.get(fulljournal.toLowerCase());
     if (tmpAbbrev == null) {
         // [shortjournal]: First letter of each word in the journal name excluding "of" and "&", allowing for special treatment.
-        // Remove "of", "&", ":"
-        let fulljournal2 = removeExtraSpace(obj.fullJournal.replace(/(of|and|&|:|\.|\,)/gi, ""));
+        // Remove "of", "&", ":", "and", ".", ",", "the"
+        let fulljournal2 = removeExtraSpace(obj.fullJournal.replace(/(of|and|the|&|:|\.|\,)/gi, ""));
         for (let s of fulljournal2.split(" ")) {
             shortjournal += s[0].toUpperCase();
         }
@@ -482,10 +482,10 @@ function getInfoFromScienceDirect() {
 function getInfoFromWiley() {
     // Get all data in JSON form
     jsonstr = document.getElementById("analyticDigitalData").textContent;
-    digitalData = JSON.parse(jsonstr.slice(jsonstr.match(/{/).index))
+    digitalData = JSON.parse(jsonstr.slice(jsonstr.match(/{/).index));
     let articleInfo = digitalData;
     // Title
-    let fullTitle = articleInfo.publication.item.title
+    let fullTitle = articleInfo.publication.item.title;
     // Online year
     let onlineYear = matchYear(articleInfo.publication.item.earliestDate);
     // Forthcoming or not
