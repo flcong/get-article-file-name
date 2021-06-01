@@ -54,7 +54,7 @@ function createButton() {
     button.style.position = "fixed";
     button.style.width = "30px";
     button.style.height = "30px";
-    button.style.top = "30%";
+    button.style.top = "40%";
     button.style.right = "1px";
     button.style.backgroundColor = "transparent";
     button.style.cursor = "pointer";
