@@ -15,18 +15,20 @@ let latinOnly = true;
 // Create the button
 chrome.storage.sync.get(["fileNameFormat", "FCtext", "WPtext", "displayButton", "latinOnly"],
 (result) => {
-    // Load global variables
-    displayButton = result.displayButton;
-    fileNameFormat = result.fileNameFormat;
-    FCtext = result.FCtext;
-    WPtext = result.WPtext;
-    latinOnly = result.latinOnly;
-    // Create the button
-    if (displayButton) {
-        console.log("fileNameFormat: " + fileNameFormat);
-        createButton();
-    } else {
-        removeButton();
+    if (isSupported(window.location.host)) {
+        // Load global variables
+        displayButton = result.displayButton;
+        fileNameFormat = result.fileNameFormat;
+        FCtext = result.FCtext;
+        WPtext = result.WPtext;
+        latinOnly = result.latinOnly;
+        // Create the button
+        if (displayButton) {
+            console.log("fileNameFormat: " + fileNameFormat);
+            createButton();
+        } else {
+            removeButton();
+        }
     }
 });
 
@@ -117,6 +119,32 @@ function removeButton() {
 // =========================================================
 // MAIN FUNCTIONS
 // =========================================================
+
+// Check if the website is supported
+function isSupported(hostname) {
+    supported_list = [
+        /[\.\-]sciencedirect[\.\-]/,
+        /[\.\-]wiley[\.\-]/,
+        /[\.\-]oup[\.\-]/,
+        /[\.\-]cambridge[\.\-]/,
+        /[\.\-]informs[\.\-]/,
+        /[\.\-]uchicago[\.\-]/,
+        /[\.\-]ssrn[\.\-]/,
+        /[\.\-]allenpress[\.\-]/,
+        /[\.\-]aeaweb[\.\-]/,
+        /[\.\-]mit[\.\-]/,
+        /[\.\-]tandfonline[\.\-]/,
+    ];
+    out = false;
+    for (let pattern of supported_list) {
+        if (hostname.match(pattern) != null) {
+            out = true;
+            break;
+        }
+    }
+    return out;
+}
+
 
 // Main program to prompt file name
 function mainProgram() {
