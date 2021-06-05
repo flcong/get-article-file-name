@@ -7,17 +7,22 @@
     "content_scripts": [
         {
             "matches": [
-                "*://www.sciencedirect.com/*",
-                "*://onlinelibrary.wiley.com/*",
-                "*://academic.oup.com/*",
-                "*://www.cambridge.org/core/journals/*",
-                "*://pubsonline.informs.org/*",
-                "*://www.journals.uchicago.edu/*",
-                "*://papers.ssrn.com/*",
-                "*://meridian.allenpress.com/*",
-                "*://www.aeaweb.org/*",
-                "*://direct.mit.edu/*",
-                "*://www.tandfonline.com/*"
+                "<all_urls>"
+                // "*://www.sciencedirect.com/*",
+                // "*://www-sciencedirect-com*",
+                // "*://onlinelibrary.wiley.com/*",
+                // "*://onlinelibrary-wiley-com*",
+                // "*://academic.oup.com/*",
+                // "*://academic-oup-com*",
+                // "*://www.cambridge.org/core/journals/*",
+                // "*://pubsonline.informs.org/*",
+                // "*://www.journals.uchicago.edu/*",
+                // "*://papers.ssrn.com/*",
+                // "*://meridian.allenpress.com/*",
+                // "*://www.aeaweb.org/*",
+                // "*://direct.mit.edu/*",
+                // "*://www.tandfonline.com/*"
+                // "*://www-tandfonline-com*"
             ],
             "js": ["contentScript.js"]
         }

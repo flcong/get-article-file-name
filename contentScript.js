@@ -123,27 +123,27 @@ function mainProgram() {
     let hostname = window.location.host;
     let fileName = "";
     // try {
-        if (hostname.indexOf(".sciencedirect.") >= 0) {
+        if (hostname.match(/[\.\-]sciencedirect[\.\-]/) != null) {
             fileInfo = getInfoFromScienceDirect();
-        } else if (hostname.indexOf(".wiley.") >= 0) {
+        } else if (hostname.match(/[\.\-]wiley[\.\-]/) != null) {
             fileInfo = getInfoFromWiley();
-        } else if (hostname.indexOf(".oup.") >= 0) {
+        } else if (hostname.match(/[\.\-]oup[\.\-]/) != null) {
             fileInfo = getInfoFromOup();
-        } else if (hostname.indexOf(".cambridge.") >= 0) {
+        } else if (hostname.match(/[\.\-]cambridge[\.\-]/) != null) {
             fileInfo = getInfoFromCambridge();
-        } else if (hostname.indexOf(".informs.") >= 0) {
+        } else if (hostname.match(/[\.\-]informs[\.\-]/) != null) {
             fileInfo = getInfoFromInforms();
-        } else if (hostname.indexOf(".uchicago.") >= 0) {
+        } else if (hostname.match(/[\.\-]uchicago[\.\-]/) != null) {
             fileInfo = getInfoFromChicago();
-        } else if (hostname.indexOf(".ssrn.") >= 0) {
+        } else if (hostname.match(/[\.\-]ssrn[\.\-]/) != null) {
             fileInfo = getInfoFromSSRN();
-        } else if (hostname.indexOf(".allenpress.") >= 0) {
+        } else if (hostname.match(/[\.\-]allenpress[\.\-]/) != null) {
             fileInfo = getInfoFromTAR();
-        } else if (hostname.indexOf(".aeaweb.") >= 0) {
+        } else if (hostname.match(/[\.\-]aeaweb[\.\-]/) != null) {
             fileInfo = getInfoFromAEA();
-        } else if (hostname.indexOf(".mit.") >= 0) {
+        } else if (hostname.match(/[\.\-]mit[\.\-]/) != null) {
             fileInfo = getInfoFromTAR();
-        } else if (hostname.indexOf(".tandfonline.") >= 0) {
+        } else if (hostname.match(/[\.\-]tandfonline[\.\-]/) != null) {
             fileInfo = getInfoFromTandF();
         } else {
             alert("Unsupported website!");
