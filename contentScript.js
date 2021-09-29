@@ -523,7 +523,7 @@ function getInfoFromWiley() {
     // Authors
     let authors = [];
     for (let auth of document.getElementById("sb-1").getElementsByClassName("author-name")) {
-        let authSurnames = auth.href.match(/ContribAuthorStored=(.*)%2C/)[1].split("+");
+        let authSurnames = auth.href.match(/ContribAuthor(?:Stored|Raw)=(.*)%2C/)[1].split("+");
         for (let i = 0; i < authSurnames.length; ++i) {
             authSurnames[i] = upcaseFirstLetter(decodeURI(authSurnames[i]));
         }
