@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(() => {
             displayButton: true,
             fileNameFormat: "[workingpaper] [forthcoming] [issueyear] [authorsand] [shortjournal] [fulltitle]",
             FCtext: "FC",
-            WPtext: "WP",
+            WPtext: "",
             latinOnly: true
         },
         () => {

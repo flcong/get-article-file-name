@@ -1,5 +1,5 @@
 # Get Article File Name ![](images/gafn32.png)
-Current Version: 2.0.4
+Current Version: 2.0.5
 
 ## Motivation
 
@@ -51,7 +51,7 @@ Details about these options are as follows:
 
 * **File name format**: Fill in the file name format in this textbox. The default is `[workingpaper] [forthcoming] [issueyear] [authorsand] [shortjournal] [fulltitle]`. Texts enclosed by brackets represent pre-defined variables (see below). Other characters than the pre-defined variables will be shown in the file name as is. More than one consecutive spaces will be replaced by one space.
 * **Forthcoming text**: This is the string that represents the `[forthcoming]` variable if the article is forthcoming. The default is `FC`.
-* **Working-paper text**: This is the string that represents the `[workingpaper]` variable if the article is from SSRN. The default is `WP`.
+* **Working-paper text**: This is the string that represents the `[workingpaper]` variable if the article is from SSRN or Arxiv. The default is an empty string.
 * **Display the floating button?**: Check this box if you want the floating button on the supported webpages. The default is true.
 * **Latin alphabets only?**: Check this box if you want to convert all accentuated letters (in author names or title) to the corresponding latin alphabets (e.g. é to e). The default is true.
 
@@ -77,36 +77,37 @@ Click on the "Confirm" button to confirm your choice and then **refresh** the we
     I use the function words defined by JabRef: "a", "an", "the", "above", "about", "across", "against", "along", "among", "around", "at", "before", "behind", "below", "beneath", "beside", "between", "beyond", "by", "down", "during", "except", "for", "from", "in", "inside", "into", "like", "near", "of", "off", "on", "onto", "since", "to", "toward", "through", "under", "until", "up", "upon", "with", "within", "without", "and", "but", "for", "nor", "or", "so", "yet".
 
 * Year
-    * `[issueyear]`: Year of the published issue. For forthcoming articles without an official published year, this variable is set to be `[onlineyear]` defined below. For SSRN articles, this variable is the year of "Last Revised" if it is available and the year of "Posted" otherwise.
-    * `[onlineyear]`: Year of first available online in the publisher, which may not be equal to the year of the published issue. For AEA journals, the year available online is not available, so this variable is set to empty. For SSRN articles, this variable is the same as `[issueyear]`.
+    * `[issueyear]`: Year of the published issue. For forthcoming articles without an official published year, this variable is set to be `[onlineyear]` defined below. For SSRN or Arxiv articles, this variable is the year of "Last Revised" if it is available and the year of "Posted" otherwise.
+    * `[onlineyear]`: Year of first available online in the publisher, which may not be equal to the year of the published issue. For AEA journals, the year available online is not available, so this variable is set to empty. For SSRN or Arxiv articles, this variable is the same as `[issueyear]`.
 
 * Journal
-    * `[fulljournal]`: Full journal name. For SSRN articles, this variable is equal to `"SSRN"`.
+    * `[fulljournal]`: Full journal name. For SSRN (Arxiv) articles, this variable is equal to `"SSRN"` (`"Arxiv"`).
     * `[shortjournal]`: First letter of each word in the journal name excluding "of" and "&", allowing for special treatment (see below).
 
-    List of journal names with special abbreviation: Econometrica-`ECTA`, Review of Economic Studies-`ReStud`, Review of Economics and Statistics-`ReStat`, RAND Journal of Economics-`RAND`, Journal of Public Economics-`JPub`, AEJ: Macroeconomics-`AEJMa`, AEJ: Microeconomics-`AEJMi`, SSRN-`SSRN`.
+    List of journal names with special abbreviation: Econometrica-`ECTA`, Review of Economic Studies-`ReStud`, Review of Economics and Statistics-`ReStat`, RAND Journal of Economics-`RAND`, Journal of Public Economics-`JPub`, AEJ: Macroeconomics-`AEJMa`, AEJ: Microeconomics-`AEJMi`, SSRN-`SSRN`, Arxiv-`Arxiv`.
 
 * Forthcoming
     * `[forthcoming]`: A string equal to the user's choice for forthcoming articles and empty otherwise.
 
-* SSRN working paper
-    * `[workingpaper]`: A string equal to the user's choice for SSRN working paper and empty otherwise.
+* SSRN or Arxiv working paper
+    * `[workingpaper]`: A string equal to the user's choice for SSRN or Arxiv working paper and empty otherwise.
 
 ## Publishers currently supported
 
 Currently, the following publishers are supported. More will be added at request:
 
-* Elsevier: Journal of Financial Economics, Journal of Monetary Economics, Journal of Banking & Finance, etc.
-* Wiley: Journal of Finance, Econometrica, etc.
-* Oxford: Review of Financial Studies, etc.
-* Cambridge: Journal of Financial and Quantitative Analysis, etc.
-* INFORMS: Management Science, etc.
-* UChicago: Journal of Political Economy, etc.
-* SSRN
-* Allenpress: The Accounting Review
 * AEA: American Economic Review, AEJ: Macroeconomics, etc.
+* Allenpress: The Accounting Review
+* Arxiv.org
+* Cambridge: Journal of Financial and Quantitative Analysis, etc.
+* Elsevier: Journal of Financial Economics, Journal of Monetary Economics, Journal of Banking & Finance, etc.
+* INFORMS: Management Science, etc.
 * MIT Press: Review of Economics and Statistics, etc.
+* Oxford: Review of Financial Studies, etc.
+* SSRN
 * Taylor & Francis: Journal of Business & Statistics, etc.
+* UChicago: Journal of Political Economy, etc.
+* Wiley: Journal of Finance, Econometrica, etc.
 
 ## Future plan
 

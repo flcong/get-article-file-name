@@ -134,6 +134,7 @@ function isSupported(hostname) {
         /[\.\-]aeaweb[\.\-]/,
         /[\.\-]mit[\.\-]/,
         /[\.\-]tandfonline[\.\-]/,
+        /arxiv\.org/
     ];
     out = false;
     for (let pattern of supported_list) {
@@ -173,6 +174,8 @@ function mainProgram() {
             fileInfo = getInfoFromTAR();
         } else if (hostname.match(/[\.\-]tandfonline[\.\-]/) != null) {
             fileInfo = getInfoFromTandF();
+        } else if (hostname.match(/arxiv\.org/) != null) {
+            fileInfo = getInfoFromArxiv();
         } else {
             alert("Unsupported website!");
             return;
@@ -427,7 +430,8 @@ function getJournalVar(obj) {
             ["journal of public economics", "JPub"],
             ["american economic journal macroeconomics", "AEJMa"],
             ["american economic journal microeconomics", "AEJMi"],
-            ["ssrn", "SSRN"]
+            ["ssrn", "SSRN"],
+            ["arxiv", "Arxiv"]
         ]
     )
     let tmpAbbrev = overwriteMap.get(fulljournal.toLowerCase());
@@ -462,7 +466,7 @@ function getForthcomingVar(obj, string) {
 
 // Get character to indicate working paper
 function getWPVar(obj, string) {
-    if (obj.fullJournal == "SSRN") {
+    if (["SSRN","Arxiv"].includes(obj.fullJournal)) {
         return {workingpaper: string};
     } else {
         return {workingpaper: ""};
@@ -818,6 +822,34 @@ function getInfoFromTandF() {
     };
 }
 
+
+// Arxiv.org
+function getInfoFromArxiv() {
+    // Title
+    let fullTitle = document.getElementsByName('citation_title')[0].getAttribute('content');
+    // Online year & Issue year
+    let onlineYear = document.getElementsByName('citation_online_date')[0].getAttribute('content').match(/(\d*)\//)[1];
+    let issueYear = onlineYear;
+    // Forthcoming or not
+    let isForthcoming = false;
+    // Authors
+    let authors = [];
+    for (let auth of document.getElementsByName('citation_author')) {
+        let authSurname = auth.getAttribute('content').match(/([^,]*),/)[1]
+        authors.push(authSurname);
+    }
+    // Journal
+    let fullJournal = 'Arxiv';
+
+    return {
+        authors: authors,
+        fullTitle: fullTitle,
+        onlineYear: onlineYear,
+        issueYear: issueYear,
+        isForthcoming: isForthcoming,
+        fullJournal: fullJournal
+    };
+}
 
 
 // =========================================================
