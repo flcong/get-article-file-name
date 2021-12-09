@@ -437,8 +437,8 @@ function getJournalVar(obj) {
     let tmpAbbrev = overwriteMap.get(fulljournal.toLowerCase());
     if (tmpAbbrev == null) {
         // [shortjournal]: First letter of each word in the journal name excluding "of" and "&", allowing for special treatment.
-        // Remove "of", "&", ":", "and", ".", ",", "the"
-        let fulljournal2 = removeExtraSpace(obj.fullJournal.replace(/(of|and|the|&|:|\.|\,)/gi, ""));
+        // Remove "of", "&", ":", "and", ".", ",", "the" followed by space
+        let fulljournal2 = removeExtraSpace(obj.fullJournal.replace(/(\s|^)(of|and|the|&|:|\.|\,)(\s|$)/gi, ""));
         for (let s of fulljournal2.split(" ")) {
             shortjournal += s[0].toUpperCase();
         }
