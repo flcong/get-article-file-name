@@ -1,5 +1,5 @@
 # Get Article File Name ![](images/gafn32.png)
-Current Version: 2.0.6
+Current Version: 2.0.7
 
 ## Motivation
 

@@ -1,7 +1,7 @@
 {
     "name": "Get Article File Name",
     "description": "Generate Article File Name based on article title, authors, and year",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "manifest_version": 3,
     "permissions": ["storage"],
     "content_scripts": [
