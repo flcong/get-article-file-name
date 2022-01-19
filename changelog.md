@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file starting from version 2.0.5.
 
+## [2.0.8] - 2022-01-19
+### Changed
+- Wiley changed the format of their website, so another method is implemented to parse author names.
+- Integrate code to get last name from full name.
 
 ## [2.0.7] - 2021-12-09
 ### Changed

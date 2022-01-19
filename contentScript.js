@@ -526,13 +526,19 @@ function getInfoFromWiley() {
     let issueYear = isForthcoming ? onlineYear : matchYear(articleInfo.publication.group.coverDate);
     // Authors
     let authors = [];
-    for (let auth of document.getElementById("sb-1").getElementsByClassName("author-name")) {
-        let authSurnames = auth.href.match(/ContribAuthor(?:Stored|Raw)=(.*)%2C/)[1].split("+");
-        for (let i = 0; i < authSurnames.length; ++i) {
-            authSurnames[i] = upcaseFirstLetter(decodeURI(authSurnames[i]));
-        }
-        authors.push(authSurnames.join(" "));
+    // NOTE: Wiley changed (at least as of 2022-01-18) their website format so 
+    // the following code does not work anymore.
+    // for (let auth of document.getElementById("sb-1").getElementsByClassName("author-name")) {
+    //     let authSurnames = auth.href.match(/ContribAuthor(?:Stored|Raw)=(.*)%2C/)[1].split("+");
+    //     for (let i = 0; i < authSurnames.length; ++i) {
+    //         authSurnames[i] = upcaseFirstLetter(decodeURI(authSurnames[i]));
+    //     }
+    //     authors.push(authSurnames.join(" "));
+    // }
+    for (let auth of findObj(document.getElementsByTagName("meta"), "name", "citation_author")) {
+        authors.push(getLastName(auth.getAttribute("content"), "F L"));
     }
+
     // Journal
     let fullJournal = cleanJournal(articleInfo.publication.series.title);
 
@@ -562,7 +568,8 @@ function getInfoFromOup() {
     // Authors
     let authors = [];
     for (let auth of articleInfo.author) {
-        authors.push(auth.name.match(/^([^,]*),/)[1]);
+        // authors.push(auth.name.match(/^([^,]*),/)[1]);
+        authors.push(getLastName(auth.name, "L, F"));
     }
     // Journal
     let fullJournal = cleanJournal(isForthcoming ? articleInfo.isPartOf.name : articleInfo.isPartOf.isPartOf.name);
@@ -593,15 +600,16 @@ function getInfoFromCambridge() {
     }
     // Authors
     let authors = [];
-    nobiliaryArticles = ["von", "van", "de", "du", "des", "del", "della", "di"];
+    // nobiliaryArticles = ["von", "van", "de", "du", "des", "del", "della", "di"];
     for (let auth of findObj(document.getElementsByTagName("meta"), "name", "citation_author")) {
-        let nameComp = auth.getAttribute("content").trim().split(" ");
-        // Check if the second-last element is von, van, de, du, des, del, della, di
-        if (nameComp.length >= 2 && nobiliaryArticles.includes(nameComp[nameComp.length-2].toLowerCase())) {
-            authors.push(nameComp.slice(-2).join(" "));
-        } else {
-            authors.push(nameComp[nameComp.length-1]);
-        }
+        // let nameComp = auth.getAttribute("content").trim().split(" ");
+        // // Check if the second-last element is von, van, de, du, des, del, della, di
+        // if (nameComp.length >= 2 && nobiliaryArticles.includes(nameComp[nameComp.length-2].toLowerCase())) {
+        //     authors.push(nameComp.slice(-2).join(" "));
+        // } else {
+        //     authors.push(nameComp[nameComp.length-1]);
+        // }
+        authors.push(getLastName(auth.getAttribute("content"), "F L"));
     }
     // Journal
     let fullJournal = cleanJournal(findObj(document.getElementsByTagName("meta"), "name", "citation_journal_title")[0].getAttribute("content"));
@@ -706,7 +714,8 @@ function getInfoFromSSRN() {
     // Authors
     let authors = [];
     for (let auth of findObj(document.getElementsByTagName("meta"), "name", "citation_author")) {
-        authors.push(auth.getAttribute("content").match(/^([^,]*),/)[1]);
+        // authors.push(auth.getAttribute("content").match(/^([^,]*),/)[1]);
+        authors.push(getLastName(auth.getAttribute("content"), "L, F"));
     }
     // Journal
     let fullJournal = "SSRN";
@@ -736,7 +745,8 @@ function getInfoFromTAR() {
     // Authors
     let authors = [];
     for (let auth of findObj(document.getElementsByTagName("meta"), "name", "citation_author")) {
-        authors.push(auth.getAttribute("content").match(/^([^,]*),/)[1]);
+        // authors.push(auth.getAttribute("content").match(/^([^,]*),/)[1]);
+        authors.push(getLastName(auth.getAttribute("content"), "L, F"));
     }
     // Journal
     let fullJournal = cleanJournal(findObj(document.getElementsByTagName("meta"), "name", "citation_journal_title")[0].getAttribute("content"));
@@ -765,7 +775,8 @@ function getInfoFromAEA() {
     // Authors
     let authors = [];
     for (let auth of findObj(document.getElementsByTagName("meta"), "name", "citation_author")) {
-        authors.push(auth.getAttribute("content").match(/^([^,]*),/)[1]);
+        // authors.push(auth.getAttribute("content").match(/^([^,]*),/)[1]);
+        authors.push(getLastName(auth.getAttribute("content"), "L, F"));
     }
     // Journal
     let fullJournal = cleanJournal(findObj(document.getElementsByTagName("meta"), "name", "citation_journal_title")[0].getAttribute("content"));
@@ -835,8 +846,9 @@ function getInfoFromArxiv() {
     // Authors
     let authors = [];
     for (let auth of document.getElementsByName('citation_author')) {
-        let authSurname = auth.getAttribute('content').match(/([^,]*),/)[1]
-        authors.push(authSurname);
+        // let authSurname = auth.getAttribute('content').match(/([^,]*),/)[1]
+        // authors.push(authSurname);
+        authors.push(getLastName(auth.getAttribute("content"), "L, F"));
     }
     // Journal
     let fullJournal = 'Arxiv';
@@ -855,6 +867,52 @@ function getInfoFromArxiv() {
 // =========================================================
 // UTILITY FUNCTIONS
 // =========================================================
+
+// Get last name
+function getLastName(string, nameFormat) {
+    let lastName = "";
+    if (nameFormat == "L, F") {
+        // The format is "LastName, FirstName": match by ','
+        lastName = removeExtraSpace(string).trim().match(/^([^,]*),/)[1].trim();
+    } else if (nameFormat == "F L") {
+        // The format is "FirstName LastName": split by ' ' and select the last
+        // taking into account nobiliary articles
+        let nameComp = removeExtraSpace(string).trim().split(" ");
+        // Check if the second-last element is von, van, de, du, des, del, della, di
+        nobiliaryArticles = ["von", "van", "de", "du", "des", "del", "della", "di"];
+        if (nameComp.length >= 2 && nobiliaryArticles.includes(nameComp[nameComp.length-2].toLowerCase())) {
+            lastName = nameComp.slice(-2).join(" ");
+        } else {
+            lastName = nameComp[nameComp.length-1];
+        }
+    }
+    return formatLastName(lastName);
+}
+
+// Format author last name
+function formatLastName(string) {
+    let outstr = string;
+    if (getPctUpcase(string) > 0.5) {
+        // Change first letter of any word into uppercase
+        if (outstr.match(/\s/) == null) {
+            outstr = outstr.charAt(0).toUpperCase() + outstr.toLowerCase().slice(1);
+        } else {
+            outstr = outstr.split(' ').map(word => word.charAt(0).toUpperCase() + word.toLowerCase().slice(1)).join(' ');
+        }
+    }
+    return outstr;
+}
+
+// Percentage of uppercase letters
+function getPctUpcase(string) {
+    let result = 0;
+    for (let i = 0; i < string.length; i += 1) {
+        if (string.charCodeAt(i) > 64 && string.charCodeAt(i) < 91 ) {
+            result += 1;
+        }
+    }
+    return result / string.length;
+}
 
 // Function to remove special characters in title
 function cleanTitle(string) {
