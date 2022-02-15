@@ -108,6 +108,8 @@ Currently, the following publishers are supported. More will be added at request
 * Taylor & Francis: Journal of Business & Statistics, etc.
 * UChicago: Journal of Political Economy, etc.
 * Wiley: Journal of Finance, Econometrica, etc.
+* ACM
+* IEEE
 
 ## Future plan
 
