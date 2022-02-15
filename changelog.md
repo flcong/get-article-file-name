@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file starting from version 2.0.5.
 
+## [2.0.9] - 2022-02-15
+### Added
+- Support for acm.org and ieee.org
+### Changed
+- In the definition of `shortjournal`, if `fulljournal` contains only uppercase letters, then `shortjournal` is identical to `fulljournal`.
+
 ## [2.0.8] - 2022-01-19
 ### Changed
 - Wiley changed the format of their website, so another method is implemented to parse author names.

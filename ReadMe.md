@@ -1,5 +1,5 @@
 # Get Article File Name ![](images/gafn32.png)
-Current Version: 2.0.7
+Current Version: 2.0.9
 
 ## Motivation
 
@@ -82,7 +82,7 @@ Click on the "Confirm" button to confirm your choice and then **refresh** the we
 
 * Journal
     * `[fulljournal]`: Full journal name. For SSRN (Arxiv) articles, this variable is equal to `"SSRN"` (`"Arxiv"`).
-    * `[shortjournal]`: First letter of each word in the journal name excluding "of" and "&", allowing for special treatment (see below).
+    * `[shortjournal]`: First letter of each word in the journal name excluding "of" and "&", allowing for special treatment (see below). However, if the journal name contains only uppercase letters (without spaces), then we consider it as the abbreviation and set `shortjournal` as identical to the journal name.
 
     List of journal names with special abbreviation: Econometrica-`ECTA`, Review of Economic Studies-`ReStud`, Review of Economics and Statistics-`ReStat`, RAND Journal of Economics-`RAND`, Journal of Public Economics-`JPub`, AEJ: Macroeconomics-`AEJMa`, AEJ: Microeconomics-`AEJMi`, SSRN-`SSRN`, Arxiv-`Arxiv`.
 

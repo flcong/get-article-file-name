@@ -134,7 +134,9 @@ function isSupported(hostname) {
         /[\.\-]aeaweb[\.\-]/,
         /[\.\-]mit[\.\-]/,
         /[\.\-]tandfonline[\.\-]/,
-        /arxiv\.org/
+        /arxiv\.org/,
+        /dl\.acm\.org/,
+        /ieeexplore\.ieee\.org/,
     ];
     out = false;
     for (let pattern of supported_list) {
@@ -176,6 +178,10 @@ function mainProgram() {
             fileInfo = getInfoFromTandF();
         } else if (hostname.match(/arxiv\.org/) != null) {
             fileInfo = getInfoFromArxiv();
+        } else if (hostname.match(/dl\.acm\.org/) != null) {
+            fileInfo = getInfoFromACM();
+        } else if (hostname.match(/ieeexplore\.ieee\.org/) != null) {
+            fileInfo = getInfoFromIEEE();
         } else {
             alert("Unsupported website!");
             return;
@@ -437,10 +443,15 @@ function getJournalVar(obj) {
     let tmpAbbrev = overwriteMap.get(fulljournal.toLowerCase());
     if (tmpAbbrev == null) {
         // [shortjournal]: First letter of each word in the journal name excluding "of" and "&", allowing for special treatment.
+        // but keep the full journal name if fulljournal contains only uppercase letters without space
         // Remove "of", "&", ":", "and", ".", ",", "the" followed by space
         let fulljournal2 = removeExtraSpace(obj.fullJournal.replace(/(\s|^)(of|and|the|&|:|\.|\,)(\s|$)/gi, " ")).trim();
-        for (let s of fulljournal2.split(" ")) {
-            shortjournal += s[0].toUpperCase();
+        if (hasUpcaseOnly(fulljournal2)) {
+            shortjournal = fulljournal2;
+        } else {
+            for (let s of fulljournal2.split(" ")) {
+                shortjournal += s[0].toUpperCase();
+            }
         }
     } else {
         shortjournal = tmpAbbrev;
@@ -864,6 +875,79 @@ function getInfoFromArxiv() {
 }
 
 
+// ACM
+function getInfoFromACM() {
+    // Title
+    let fullTitle = document.getElementsByClassName("citation__title")[0].textContent;
+    // Online year & Issue year
+    let onlineYear = document.getElementsByClassName("CitationCoverDate")[0].textContent.match(/(\d{4})/)[1];
+    let issueYear = document.getElementsByClassName("epub-section__date")[0].textContent.match(/(\d{4})/)[1];
+    // Forthcoming or not
+    let isForthcoming = false;
+    // Authors
+    let authors = [];
+    for (let auth of document.getElementsByClassName('loa__author-name')) {
+        authors.push(getLastName(auth.textContent, "F L"));
+    }
+    // Journal
+    let fullJournal = document.getElementsByClassName("article__tocHeading")[2].textContent
+
+    return {
+        authors: authors,
+        fullTitle: fullTitle,
+        onlineYear: onlineYear,
+        issueYear: issueYear,
+        isForthcoming: isForthcoming,
+        fullJournal: fullJournal
+    };
+}
+
+
+// IEEE
+function getInfoFromIEEE() {
+    // Get metadata
+    for (let elem of document.querySelectorAll("script[type='text/javascript']:not([src])")) {
+        tmpmatched = elem.textContent.match("xplGlobal.document.metadata=")
+        if (tmpmatched != null) {
+            break;
+        }
+    }
+    let istart = tmpmatched.index + 28;
+    let iend = tmpmatched.input.slice(istart).match("};").index;
+    let tmptext = tmpmatched.input.slice(istart, istart+iend+1);
+    ieeemetadata = JSON.parse(tmptext);
+    // Title
+    let fullTitle = ieeemetadata["title"];
+    // Online year & Issue year
+    let oymatched = ieeemetadata["onlineDate"].match(/(\d{4})/)
+    let issueYear = ieeemetadata["publicationDate"].match(/(\d{4})/)[1];
+    if (oymatched == null) {
+        onlineYear = issueYear;
+    } else {
+        onlineYear = oymatched[1];
+    }
+    // Forthcoming or not
+    let isForthcoming = false;
+    // Authors
+    let authors = [];
+    for (let auth of ieeemetadata["authors"]) {
+        authors.push(auth.lastName);
+    }
+    // Journal
+    // let fullJournal = ieeemetadata["publicationTitle"];
+    let fullJournal = ieeemetadata["publisher"];
+
+    return {
+        authors: authors,
+        fullTitle: fullTitle,
+        onlineYear: onlineYear,
+        issueYear: issueYear,
+        isForthcoming: isForthcoming,
+        fullJournal: fullJournal
+    };
+}
+
+
 // =========================================================
 // UTILITY FUNCTIONS
 // =========================================================
@@ -947,6 +1031,18 @@ function cleanJournal(string) {
     } else {
         return string;
     }
+}
+
+// Function to check if the string contains only uppercase letters
+function hasUpcaseOnly(string) {
+    let out = true;
+    for (let s of string) {
+        if (s < 'A' || s > 'Z') {
+            out = false;
+            break;
+        }
+    }
+    return out;
 }
 
 // Function to return a list of objects with specific property values
