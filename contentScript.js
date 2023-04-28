@@ -524,17 +524,18 @@ function getInfoFromScienceDirect() {
 // onlinelibrary.wiley.com
 function getInfoFromWiley() {
     // Get all data in JSON form
-    jsonstr = document.getElementById("analyticDigitalData").textContent;
-    digitalData = JSON.parse(jsonstr.slice(jsonstr.match(/{/).index));
+    jsonstr = document.getElementById("adobeDigitalData").textContent;
+    digitalData = JSON.parse(jsonstr.slice(jsonstr.indexOf('{'),jsonstr.lastIndexOf('}')+1));
     let articleInfo = digitalData;
     // Title
-    let fullTitle = articleInfo.publication.item.title;
+    let fullTitle = articleInfo.content.item.title;
     // Online year
-    let onlineYear = matchYear(articleInfo.publication.item.earliestDate);
+    let onlineYear = matchYear(articleInfo.content.item['published-date']);
     // Forthcoming or not
-    let isForthcoming = (articleInfo.publication.group.coverDate == null);
-    // Issue year
-    let issueYear = isForthcoming ? onlineYear : matchYear(articleInfo.publication.group.coverDate);
+    let isForthcoming = (articleInfo.content.group.volume == '0');
+    // Issue year (Wiley does not separately report online date and issue date)
+    // let issueYear = isForthcoming ? onlineYear : matchYear(articleInfo.publication.group.coverDate);
+    let issueYear = onlineYear
     // Authors
     let authors = [];
     // NOTE: Wiley changed (at least as of 2022-01-18) their website format so 
@@ -551,7 +552,7 @@ function getInfoFromWiley() {
     }
 
     // Journal
-    let fullJournal = cleanJournal(articleInfo.publication.series.title);
+    let fullJournal = cleanJournal(articleInfo.content.series.title);
 
     return {
         authors: authors,

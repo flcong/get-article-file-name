@@ -1,7 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file starting from version 2.0.5.
 
+## [2.0.10] - 2023-04-27
+
+### Changed
+
+* Previously, for Wiley.com, information on articles (except author names) are extracted directly from a JSON-formatted string in the `script` tag with id `analyticDigitalData`.
+* Now, Wiley.com changed the keys and values in the JSON string, changed its `id` to `adobeDigitalData`, and make the string lines of code, not a direct JSON string.
+* Hence, I modify the code to adapt to the new format. Specifically, now the JSON string does not contain earliest online date, so I just use published date as both date of issue and date of first online.
+
 ## [2.0.9] - 2022-02-15
+
 ### Added
 - Support for acm.org and ieee.org
 ### Changed
