@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file starting from version 2.0.5.
 
+## [2.0.11] - 2024-10-20
+
+### Changed
+
+* Elsevier changed their website layout, so the previous method of retrieving information from a JSON string does not work any more.
+* So I modified, to retrieve article info from meta tags (except for authors) and authors info from button tags.
+
 ## [2.0.10] - 2023-04-27
 
 ### Changed

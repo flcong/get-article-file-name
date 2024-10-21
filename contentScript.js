@@ -492,24 +492,39 @@ function getWPVar(obj, string) {
 
 // www.sciencedirect.com
 function getInfoFromScienceDirect() {
-    // Get all data in JSON form
-    articleInfo = JSON.parse(document.querySelectorAll('script[data-iso-key]')[0].textContent);
     // Title
-    let fullTitle = articleInfo.article.titleString;
+    let fullTitle = document.querySelectorAll('meta[name="citation_title"]')[0].content;
     // Online year
-    let onlineYear = matchYear(articleInfo.article.dates["Available online"]);
+    let onlineYear = matchYear(document.querySelectorAll('meta[name="citation_online_date"]')[0].content);
     // Forthcoming or not
-    let isForthcoming = !("vol-first" in articleInfo.article);
+    let isForthcoming = document.querySelectorAll('span[class="publication-aip-text"]').length > 0;
     // Issue year (it is equal to onlineYear for forthcoming articles)
-    let issueYear = matchYear(articleInfo.article.dates["Publication date"]);
+    let issueYear = matchYear(document.querySelectorAll('meta[name="citation_publication_date"]')[0].content);
     // Authors
     let authors = [];
-    for (let obj of findObj(articleInfo.authors.content[0].$$, "#name", "author")) {
-        authors.push(findObj(obj.$$, "#name", "surname")[0]._);
+    for (let obj of document.querySelectorAll('div[id="author-group"]')[0].querySelectorAll('span[class="text surname"]')) {
+        authors.push(obj.innerHTML);
     }
     // Journal
-    let fullJournal = articleInfo.article.srctitle;
-
+    let fullJournal = document.querySelectorAll('meta[name="citation_journal_title"]')[0].content;
+    // // The following does not work at least as of 2024-10-20
+    // // Get all data in JSON form
+    // articleInfo = JSON.parse(document.querySelectorAll('script[data-iso-key]')[0].textContent);
+    // // Title
+    // let fullTitle = articleInfo.article.titleString;
+    // // Online year
+    // let onlineYear = matchYear(articleInfo.article.dates["Available online"]);
+    // // Forthcoming or not
+    // let isForthcoming = !("vol-first" in articleInfo.article);
+    // // Issue year (it is equal to onlineYear for forthcoming articles)
+    // let issueYear = matchYear(articleInfo.article.dates["Publication date"]);
+    // // Authors
+    // let authors = [];
+    // for (let obj of findObj(articleInfo.authors.content[0].$$, "#name", "author")) {
+    //     authors.push(findObj(obj.$$, "#name", "surname")[0]._);
+    // }
+    // // Journal
+    // let fullJournal = articleInfo.article.srctitle;
     return {
         authors: authors,
         fullTitle: fullTitle,
