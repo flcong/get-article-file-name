@@ -538,9 +538,12 @@ function getInfoFromScienceDirect() {
 
 // onlinelibrary.wiley.com
 function getInfoFromWiley() {
-    // Get all data in JSON form
-    jsonstr = document.getElementById("adobeDigitalData").textContent;
-    digitalData = JSON.parse(jsonstr.slice(jsonstr.indexOf('{'),jsonstr.lastIndexOf('}')+1));
+    // Update as of 2024-10-20
+    let jsonstrlist = getJsonSubString(document.getElementById("adobeDigitalData").textContent);
+    let digitalData = JSON.parse(jsonstrlist.filter((x) => x.includes('title'))[0]);
+    // // Get all data in JSON form
+    // jsonstr = document.getElementById("adobeDigitalData").textContent;
+    // digitalData = JSON.parse(jsonstr.slice(jsonstr.indexOf('{'),jsonstr.lastIndexOf('}')+1));
     let articleInfo = digitalData;
     // Title
     let fullTitle = articleInfo.content.item.title;
@@ -1075,4 +1078,21 @@ function findObj(objList, prop, value) {
 // Function to remove extra spaces
 function removeExtraSpace(string) {
     return string.replace(/\s{2,}/g, " ").trim();
+}
+
+// Function to extract substrings sandwiched by { and }
+function getJsonSubString(string) {
+    out = []
+    stack = [];
+    for (let i = 0; i < string.length; i++) {
+        if (string[i] == '{') {
+            stack.push(i);
+        } else if (string[i] == '}') {
+            let istart = stack.pop();
+            if (stack.length == 0) {
+                out.push(string.substring(istart, i) + '}');
+            }
+        }
+    }
+    return out;
 }
